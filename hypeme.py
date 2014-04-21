@@ -119,6 +119,10 @@ class HypeScraper:
   def download_songs(self, tracks, cookie):
   
     print "\tDOWNLOADING SONGS..."
+    path_filename = "{} - {}/".format(ALBUM, ALBUM_AREA)
+    if not os.path.exists(path_filename):
+      os.makedirs(path_filename)
+
     for track in tracks:
     
       key = track[u"key"]
@@ -147,7 +151,8 @@ class HypeScraper:
         
         download_response = urllib2.urlopen(url)
         filename = "{} - {}.mp3".format(artist, title)
-        full_filename = PATH + filename
+        full_filename = path_filename + filename
+
         if os.path.exists(full_filename):
           print("File already exists , skipping")
         else:
