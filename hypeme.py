@@ -37,7 +37,7 @@ from mutagen.easyid3 import EasyID3
 # 'track/<id>'
 ############################################
 AREA_TO_SCRAPE = 'popular'
-NUMBER_OF_PAGES = 1
+NUMBER_OF_PAGES = 3
 PATH = 'songs/'
 
 # ID3 Album tag
