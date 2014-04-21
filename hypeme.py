@@ -27,6 +27,8 @@ from bs4 import BeautifulSoup
 import json
 import string
 import os
+import mutagen
+from mutagen.easyid3 import EasyID3
 
 ##############AREA_TO_SCRAPE################
 # This is the general area that you'd 
@@ -35,7 +37,12 @@ import os
 # 'track/<id>'
 ############################################
 AREA_TO_SCRAPE = 'popular'
-NUMBER_OF_PAGES = 3
+NUMBER_OF_PAGES = 1
+PATH = 'songs/'
+
+# ID3 Album tag
+ALBUM = 'The Hype Machine'
+ALBUM_AREA = 'Popular'
 
 ###DO NOT MODIFY THESE UNLES YOU KNOW WHAT YOU ARE DOING####
 DEBUG = False
@@ -140,12 +147,23 @@ class HypeScraper:
         
         download_response = urllib2.urlopen(url)
         filename = "{} - {}.mp3".format(artist, title)
-        if os.path.exists(filename):
+        full_filename = PATH + filename
+        if os.path.exists(full_filename):
           print("File already exists , skipping")
         else:
-          mp3_song_file = open(filename, "wb")
+          mp3_song_file = open(full_filename, "wb")
           mp3_song_file.write(download_response.read() )
           mp3_song_file.close()
+          #add ID3 tags
+          try:
+            mp3_song_file_id3 = EasyID3(full_filename)
+          except mutagen.id3.ID3NoHeaderError:
+            mp3_song_file_id3 = mutagen.File(full_filename, easy=True)
+            mp3_song_file_id3.add_tags()
+          mp3_song_file_id3["title"] = title
+          mp3_song_file_id3["artist"] = artist
+          mp3_song_file_id3["album"] = "{} - {}".format(ALBUM, ALBUM_AREA)
+          mp3_song_file_id3.save()
       except urllib2.HTTPError, e:
             print 'HTTPError = ' + str(e.code) + " trying hypem download url."
       except urllib2.URLError, e:

@@ -11,7 +11,7 @@ appreciate all feedback, criticism and help!
 
 1. Make sure you have Python installed (2.7~)
 
-2. Make sure you have [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) installed. I haven't figured out
+2. Make sure you have [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/) and [Mutagen](https://code.google.com/p/mutagen/) installed. I haven't figured out
 how to deploy with dependencies yet
 
 3. Open hypeme.py and change modify the script to your choosing!
